@@ -1,0 +1,17 @@
+name: "Label issues"
+
+on:
+    issues:
+        types: [opened, edited]
+
+jobs:
+  label_issues:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: github/issue-labeler@v3.4
+          with:
+            configuration-path: .github/issues_labeler_config.yml
+            not-before: 2024-01-01T00:00:00Z
+            enable-versioned-regex: 0
+            repo-token: ${{ secrets.ACCESS_TOKEN }}
+
