@@ -1,6 +1,7 @@
 ---
 name: Documentation update
 about: Fixing a problem or improve in an existing docs page.
+title: "[Doc] "
 labels: documentation
 ---
 <!--

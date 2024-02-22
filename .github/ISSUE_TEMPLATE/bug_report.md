@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Something is wrong.
-title: "[BUG] "
+title: "[Bug] "
 labels: bug
 ---
 <!--

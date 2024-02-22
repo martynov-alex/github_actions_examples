@@ -1,6 +1,7 @@
 ---
 name: Feature request
 about: I'd like SurfGear team to do something new.
+title: "[Feature] "
 labels: enhancement
 ---
 <!--
