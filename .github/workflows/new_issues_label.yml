@@ -1,14 +1,17 @@
-name: "Label issues"
+name: Label issues
 
 on:
-    issues:
-        types: [opened, edited]
+  workflow_call:
+    secrets:
+      ACCESS_TOKEN:
+        required: true
 
 jobs:
   label_issues:
     runs-on: ubuntu-latest
     steps:
-        - uses: github/issue-labeler@v3.4
+        - name: Label issues
+          uses: github/issue-labeler@v3.4
           with:
             configuration-path: .github/issues_labeler_config.yml
             not-before: 2024-01-01T00:00:00Z

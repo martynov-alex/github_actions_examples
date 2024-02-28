@@ -1,4 +1,4 @@
-name: "Create Pyrus task from issue"
+name: Create Pyrus task from issue
 
 on:
   issues:
