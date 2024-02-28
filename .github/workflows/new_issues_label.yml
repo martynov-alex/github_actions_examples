@@ -17,4 +17,3 @@ jobs:
             not-before: 2024-01-01T00:00:00Z
             enable-versioned-regex: 0
             repo-token: ${{ secrets.ACCESS_TOKEN }}
-
