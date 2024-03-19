@@ -1,22 +1,22 @@
-name: Get FVM versionß
+name: Get Flutter version
 
 on:
   workflow_call:
     outputs:
       flutter_version:
-        description: "Flutter version"
-        value: ${{ jobs.get_fvm_version.outputs.flutter_version }}
+        value: ${{ jobs.get_flutter_version.outputs.flutter_version }}
 
 jobs:
-  get_fvm_version:
+  get_flutter_version:
     outputs:
-      flutter_version: ${{ steps.fvm_version.outputs.flutter }}
+      flutter_version: ${{ steps.flutter_version_from_fvm.outputs.flutter }}
     name: "Get Flutter version from FVM"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - id: fvm_version
+      - name: Get Flutter version from FVM
+        id: flutter_version_from_fvm
         uses: zoexx/github-action-json-file-properties@release
         with:
           file_path: ".fvmrc"
