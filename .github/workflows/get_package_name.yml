@@ -3,7 +3,7 @@ name: Get package name
 on:
   workflow_call:
     outputs:
-      flutter_version:
+      package_name:
         value: ${{ jobs.get_package_name.outputs.package_name }}
 
 jobs:
