@@ -1,0 +1,24 @@
+name: Add comment to issue or PR
+
+on:
+  workflow_call:
+    inputs:
+      ISSUE_NUMBER:
+        type: string
+        required: true
+      COMMENT_TEXT:
+        type: string
+        required: true
+
+jobs:
+  add_comment:
+    name: Add comment to issue or PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ inputs.ISSUE_NUMBER }}
+          body: ${{ inputs.COMMENT_TEXT }}
+          reactions: hooray
+
