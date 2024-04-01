@@ -1,0 +1,50 @@
+name: Add comment to Pyrus task
+
+on:
+  workflow_call:
+    # Входные данные
+    inputs:
+      # Номер задачи
+      TASK_ID:
+        type: string
+        required: true
+      # Название пакета
+      COMMENT_TEXT:
+        type: string
+        required: true
+    # Креды Pyrus бота, который будет создавать задачи
+    secrets:
+      LOGIN:
+        required: true
+      SECURITY_KEY:
+        required: true
+
+jobs:
+  login_to_pyrus:
+    name: Login to Pyrus
+    uses: ./.github/workflows/login_to_pyrus.yml
+    secrets:
+      LOGIN: ${{ secrets.LOGIN }}
+      SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
+
+  add_comment_to_task:
+    name: Add comment to Pyrus task
+    needs: login_to_pyrus
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # Creating a task in Pyrus
+          token = ${{ needs.login_to_pyrus.outputs.TOKEN }}
+          response=$(curl -X POST \
+          https://api.pyrus.com/v4/tasks/${{ inputs.TASK_ID }}/comments \
+          -H 'Content-Type: application/json' \
+          -H "Authorization: Bearer $token" \
+          -d '{ "text": "${{ inputs.COMMENT_TEXT }}" }')
+
+          # Check for the absence of 'task' field in the response
+          if ! echo "$response" | jq -e '.task' > /dev/null; then
+            echo "Error in API request. Response: $response"
+            exit 1
+          else
+            echo "Comment added successfully."
+          fi
