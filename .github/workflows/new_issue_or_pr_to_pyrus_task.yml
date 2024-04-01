@@ -2,6 +2,7 @@ name: "Create Pyrus task from issue or PR"
 
 on:
   workflow_call:
+    # Входные данные
     inputs:
       # Тип: issue или PR
       TYPE:
@@ -23,6 +24,11 @@ on:
       LINK:
         type: string
         required: true
+    # Выходные данные
+    outputs:
+      # Номер созданной задачи
+      task_id:
+        value: ${{ jobs.create_pyrus_task.outputs.task_id }}
     # Креды Pyrus бота, который будет создавать задачи
     secrets:
       LOGIN:
@@ -31,11 +37,11 @@ on:
         required: true
 
 jobs:
-  create_pyrus_task_from_issue:
+  create_pyrus_task:
     name: Create Pyrus task from issue or PR
     runs-on: ubuntu-latest
     outputs:
-      task_id: ${{ steps.create-task.outputs.task_id }}
+      task_id: ${{ steps.create_task.outputs.task_id }}
     env:
       LOGIN: ${{ secrets.LOGIN }}
       SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
@@ -63,7 +69,7 @@ jobs:
             echo "Token received successfully."
           fi
       - name: Creating a task in Pyrus
-        id: create-task
+        id: create_task
         run: |
           # Creating a task in Pyrus
           response=$(curl -X POST \
