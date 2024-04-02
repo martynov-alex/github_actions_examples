@@ -1,0 +1,34 @@
+name: Get Pyrus task ID from comment in issue or PR
+
+on:
+  workflow_call:
+    inputs:
+      # Номер issue или PR из которого создана задача в Pyrus
+      ISSUE_NUMBER:
+        type: string
+        required: true
+    outputs:
+      # Номер задачи в Pyrus
+      PYRUS_TASK_ID:
+        value: ${{ jobs.get_pyrus_task_id.outputs.pyrus_task_id }}
+
+jobs:
+  get_pyrus_task_id:
+    name: Get Pyrus task ID
+    runs-on: ubuntu-latest
+    outputs:
+      pyrus_task_id: ${{ steps.get_pyrus_task_id.outputs.task_id }}
+    steps:
+      - name: Find Comment
+        id: find_comment
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.inputs.ISSUE_NUMBER }}
+          # Такой тест ссылки используется в issue/PR комментарии при создании задачи в Pyrus
+          body-includes: "[Link to Pyrus task]"
+      - name: Get Pyrus task ID
+        id: get_pyrus_task_id
+        # Если комментарий не найден, то вернется пустая строка
+        run: |
+          id=$(echo "${{ steps.find_comment.outputs.comment-body }}" | grep -oP '#id\K\d+')
+          echo "task_id=$id" >> $GITHUB_OUTPUT
