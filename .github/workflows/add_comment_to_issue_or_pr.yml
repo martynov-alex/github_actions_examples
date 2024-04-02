@@ -5,7 +5,7 @@ on:
     inputs:
       # Номер issue или PR
       ISSUE_NUMBER:
-        type: string
+        type: number
         required: true
       # Текст комментария
       COMMENT_TEXT:

@@ -24,7 +24,9 @@ jobs:
         uses: peter-evans/find-comment@v3
         with:
           issue-number: ${{ inputs.ISSUE_NUMBER }}
-          # Такой тест ссылки используется в issue/PR комментарии при создании задачи в Pyrus
+          # Такой текст ссылки используется в issue/PR комментарии при создании задачи в Pyrus.
+          # Если задача была закрыта и открыта заново, то номер задачи будет браться из последнего
+          # комментария, который был добавлен при флоу создания задачи в Pyrus.
           body-includes: https://pyrus.com/t#id
           direction: last
       - name: Get Pyrus task ID
