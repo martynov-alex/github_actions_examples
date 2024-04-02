@@ -32,9 +32,15 @@ jobs:
     needs: login_to_pyrus
     runs-on: ubuntu-latest
     steps:
+      - name: Check if COMMENT_TEXT is not empty
+        run: |
+          if [[ -z "${{ inputs.COMMENT_TEXT }}" ]]; then
+            echo "Comment with Pyrus task link does not exist."
+            exit 1
+          fi
       - run: |
-          # Creating a task in Pyrus
-          token = ${{ needs.login_to_pyrus.outputs.TOKEN }}
+          # Creating a comment in Pyrus task
+          token=${{ needs.login_to_pyrus.outputs.TOKEN }}
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks/${{ inputs.TASK_ID }}/comments \
           -H 'Content-Type: application/json' \
