@@ -14,7 +14,7 @@ on:
       # GitHub реакция: +1, -1, laugh, confused, heart, hooray, rocket, eyes
       REACTIONS:
           type: string
-          required: true
+          required: false
 
 jobs:
   add_comment:

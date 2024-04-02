@@ -27,7 +27,7 @@ jobs:
       LOGIN: ${{ secrets.LOGIN }}
       SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
 
-  add_comment_to_task:
+  add_comment_to_pyrus_task:
     name: Add comment to Pyrus task
     needs: login_to_pyrus
     runs-on: ubuntu-latest
