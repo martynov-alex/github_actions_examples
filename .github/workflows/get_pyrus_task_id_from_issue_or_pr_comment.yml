@@ -19,13 +19,11 @@ jobs:
     outputs:
       pyrus_task_id: ${{ steps.get_pyrus_task_id.outputs.task_id }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Find Comment
         id: find_comment
         uses: peter-evans/find-comment@v3
         with:
-          issue-number: ${{ github.event.inputs.ISSUE_NUMBER }}
+          issue-number: 1
           # Такой тест ссылки используется в issue/PR комментарии при создании задачи в Pyrus
           body-regex: '^.*https://pyrus.com/t#id.*$'
           direction: last
