@@ -19,6 +19,8 @@ jobs:
     outputs:
       pyrus_task_id: ${{ steps.get_pyrus_task_id.outputs.task_id }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Find Comment
         id: find_comment
         uses: peter-evans/find-comment@v3
@@ -26,6 +28,7 @@ jobs:
           issue-number: ${{ github.event.inputs.ISSUE_NUMBER }}
           # Такой тест ссылки используется в issue/PR комментарии при создании задачи в Pyrus
           body-regex: '^.*https://pyrus.com/t#id.*$'
+          direction: last
       - name: Get Pyrus task ID
         id: get_pyrus_task_id
         # Если комментарий не найден, то вернется пустая строка
