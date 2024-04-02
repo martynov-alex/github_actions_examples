@@ -1,4 +1,4 @@
-name: "Create Pyrus task from issue or PR"
+name: Create Pyrus task from issue or PR
 
 on:
   workflow_call:
