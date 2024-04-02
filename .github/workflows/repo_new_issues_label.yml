@@ -1,4 +1,5 @@
 name: Label issues
+
 on:
   issues:
     types:
@@ -7,6 +8,6 @@ on:
 
 jobs:
   label_issues:
-    uses: ./.github/workflows/new_issues_label.yml
+    uses: martynov-alex/github_actions_examples/.github/workflows/new_issues_label.yml@main
     secrets:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
