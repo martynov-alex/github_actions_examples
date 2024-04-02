@@ -48,6 +48,8 @@ jobs:
     name: Create Pyrus task from issue or PR
     runs-on: ubuntu-latest
     needs: login_to_pyrus
+    env:
+      PYRUS_TOKEN: ${{ secrets.PYRUS_TOKEN }}
     outputs:
       task_id: ${{ steps.create_task.outputs.task_id }}
     steps:
@@ -55,11 +57,10 @@ jobs:
         id: create_task
         run: |
           # Creating a task in Pyrus
-          token=${{ needs.login_to_pyrus.outputs.TOKEN }}
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
           -H 'Content-Type: application/json' \
-          -H "Authorization: Bearer $token" \
+          -H "Authorization: Bearer $PYRUS_TOKEN" \
           -d '{
             "form_id": "1376197",
             "fields": [
