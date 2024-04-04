@@ -1,3 +1,4 @@
+# Documentation: https://github.com/marketplace/actions/regex-issue-labeler
 name: Label issues
 
 on:
@@ -13,7 +14,6 @@ jobs:
       - name: Label issues
         uses: github/issue-labeler@v3.4
         with:
-          configuration-path: .github/issues_labeler_config.yml
-          not-before: 2024-01-01T00:00:00Z
+          configuration-path: .github/issue_labeler_config.yml
           enable-versioned-regex: 0
           repo-token: ${{ secrets.ACCESS_TOKEN }}
