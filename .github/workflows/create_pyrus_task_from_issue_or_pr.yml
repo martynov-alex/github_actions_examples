@@ -29,7 +29,7 @@ on:
       # Номер созданной задачи
       TASK_ID:
         value: ${{ jobs.create_pyrus_task.outputs.task_id }}
-    # Креды Pyrus бота, который будет создавать задачи
+    # Данные для аутентификации Pyrus бота, который будет создавать задачи
     secrets:
       LOGIN:
         required: true
@@ -46,10 +46,9 @@ jobs:
       LOGIN: ${{ secrets.LOGIN }}
       SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
     steps:
-      - name: Authorization with receiving a token
+      - name: Authentication with receiving a token
         id: auth
         run: |
-          # Authorization with receiving a token
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
@@ -68,10 +67,10 @@ jobs:
             echo "TOKEN=$token" >> $GITHUB_ENV
             echo "Token received successfully."
           fi
-      - name: Creating a task in Pyrus
+
+      - name: Creating a Pyrus task
         id: create_task
         run: |
-          # Creating a task in Pyrus
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
           -H 'Content-Type: application/json' \

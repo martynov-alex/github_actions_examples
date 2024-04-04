@@ -29,6 +29,7 @@ jobs:
           # комментария, который был добавлен при флоу создания задачи в Pyrus.
           body-includes: https://pyrus.com/t#id
           direction: last
+
       - name: Get Pyrus task ID
         id: get_pyrus_task_id
         # Если комментарий не найден, то вернется пустая строка

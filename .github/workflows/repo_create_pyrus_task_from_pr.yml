@@ -13,7 +13,7 @@ jobs:
   create_pyrus_task:
     name: Create Pyrus task from pull request
     needs: get_package_name
-    uses: martynov-alex/github_actions_examples/.github/workflows/new_issue_or_pr_to_pyrus_task.yml@main
+    uses: martynov-alex/github_actions_examples/.github/workflows/create_pyrus_task_from_issue_or_pr.yml@main
     with:
       TYPE: Pull request
       PACKAGE_NAME: ${{ needs.get_package_name.outputs.package_name }}
@@ -21,8 +21,8 @@ jobs:
       BODY: ${{ github.event.pull_request.body }}
       LINK: ${{ github.event.pull_request.html_url }}
     secrets:
-      LOGIN: ${{ secrets.LOGIN }}
-      SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
+      LOGIN: ${{ secrets.PYRUS_BOT_LOGIN }}
+      SECURITY_KEY: ${{ secrets.PYRUS_BOT_SECRET }}
 
   add_comment:
     name: Add comment

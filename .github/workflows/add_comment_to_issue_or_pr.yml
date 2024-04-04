@@ -3,7 +3,7 @@ name: Add comment to issue or PR
 on:
   workflow_call:
     inputs:
-      # Номер issue или PR
+      # Number of the issue or PR
       ISSUE_NUMBER:
         type: number
         required: true
@@ -11,7 +11,7 @@ on:
       COMMENT_TEXT:
         type: string
         required: true
-      # GitHub реакция: +1, -1, laugh, confused, heart, hooray, rocket, eyes
+      # (optional) GitHub reactions: +1, -1, laugh, confused, heart, hooray, rocket, eyes
       REACTIONS:
           type: string
           required: false

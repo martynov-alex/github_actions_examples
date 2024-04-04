@@ -2,17 +2,15 @@ name: Add comment to Pyrus task
 
 on:
   workflow_call:
-    # Входные данные
     inputs:
-      # Номер задачи
-      TASK_ID:
+      # Pyrus task ID
+      PYRUS_TASK_ID:
         type: string
         required: true
-      # Название пакета
       COMMENT_TEXT:
         type: string
         required: true
-    # Креды Pyrus бота, который будет создавать задачи
+    # Authentication data for Pyrus bot which will add comments to the task
     secrets:
       LOGIN:
         required: true
@@ -30,13 +28,12 @@ jobs:
       - name: Check if COMMENT_TEXT is not empty
         run: |
           if [[ -z "${{ inputs.COMMENT_TEXT }}" ]]; then
-            echo "Comment with Pyrus task link does not exist."
+            echo "Comment with Pyrus task link does not exist or empty."
             exit 1
           fi
-      - name: Authorization with receiving a token
+      - name: Authentication with receiving a token
         id: auth
         run: |
-          # Authorization with receiving a token
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
@@ -58,9 +55,8 @@ jobs:
       - name: Add comment to Pyrus task
         id: add_comment
         run: |
-          # Creating a comment in Pyrus task
           response=$(curl -X POST \
-          https://api.pyrus.com/v4/tasks/${{ inputs.TASK_ID }}/comments \
+          https://api.pyrus.com/v4/tasks/${{ inputs.PYRUS_TASK_ID }}/comments \
           -H 'Content-Type: application/json' \
           -H "Authorization: Bearer $TOKEN" \
           -d '{ "text": "${{ inputs.COMMENT_TEXT }}" }')
@@ -70,5 +66,5 @@ jobs:
             echo "Error in API request. Response: $response"
             exit 1
           else
-            echo "Comment added successfully."
+            echo "Comment was added successfully."
           fi
