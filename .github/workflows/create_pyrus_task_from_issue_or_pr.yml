@@ -68,6 +68,7 @@ jobs:
         id: create_task
         run: |
           escaped_quotes_title=$(echo $title | sed 's/"/\\"/g')
+          escaped_quotes_body=$(echo $body | sed 's/"/\\"/g')
 
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
@@ -90,7 +91,7 @@ jobs:
               },
               {
                 "id": "7",
-                "value": "'"$escaped_quotes_title"'"
+                "value": "'"$escaped_quotes_body"'"
               },
               {
                 "id": "5",
