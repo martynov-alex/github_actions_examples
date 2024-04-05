@@ -67,9 +67,6 @@ jobs:
       - name: Creating a Pyrus task
         id: create_task
         run: |
-          single_quotes_escaped_title=$(echo "${{ env.title }}" | sed "s/'/\\'/g")
-          single_quotes_escaped_body=$(echo "${{ env.body }}" | sed "s/'/\\'/g")
-
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
           -H 'Content-Type: application/json' \
@@ -87,11 +84,11 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "$(echo '$single_quotes_escaped_title' | sed 's/"/\\"/g')"
+                "value": "'"${{ env.title }}"'"
               },
               {
                 "id": "7",
-                "value": "$(echo '$single_quotes_escaped_body' | sed 's/"/\\"/g')"
+                "value": "'"${{ env.body }}"'"
               },
               {
                 "id": "5",
