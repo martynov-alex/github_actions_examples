@@ -49,8 +49,8 @@ jobs:
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
           -d '{
-            "login": "'"$login"'",
-            "security_key": "'"$security_key"'"
+            "login": "${{ env.login }}",
+            "security_key": "${{ env.security_key }}"
             }'
           )
 
@@ -84,11 +84,11 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "'"$title"'"
+                "value": "${{ env.title }}"
               },
               {
                 "id": "7",
-                "value": "'"$body"'"
+                "value": "${{ env.body }}"
               },
               {
                 "id": "5",
