@@ -72,7 +72,7 @@ jobs:
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
           -H 'Content-Type: application/json' \
-          -H 'Authorization: Bearer $pyrus_token' \
+          -H "Authorization: Bearer $pyrus_token" \
           -d '{
             "form_id": "1376197",
             "fields": [
