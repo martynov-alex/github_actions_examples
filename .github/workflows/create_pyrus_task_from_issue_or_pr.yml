@@ -69,9 +69,9 @@ jobs:
         run: |
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
-          -H "Content-Type: application/json" \
+          -H 'Content-Type: application/json' \
           -H "Authorization: Bearer $TOKEN" \
-          -d "{
+          -d '{
             "form_id": "1376197",
             "fields": [
               {
@@ -84,18 +84,18 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "$TITLE"
+                "value": "'"$TITLE"'"
               },
               {
                 "id": "7",
-                "value": "$BODY"
+                "value": "'"$BODY"'"
               },
               {
                 "id": "5",
                 "value": "${{ inputs.LINK }}"
               }
             ]
-          }")
+          }')
 
           # Check for the absence of 'task' field in the response
           if ! echo "$response" | jq -e '.task' > /dev/null; then
