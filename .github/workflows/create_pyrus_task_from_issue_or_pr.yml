@@ -47,19 +47,19 @@ jobs:
         run: |
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
-          -H 'Content-Type: application/json' \
-          -d '{
-            "login": "'"$login"'",
-            "security_key": "'"$security_key"'"
-            }'
+          -H "Content-Type: application/json" \
+          -d "{
+              "login": "${{ env.login }}",
+              "security_key": "${{ env.security_key }}"
+            }"
           )
 
-          # Check for the absence of 'access_token' field in the response
-          if ! echo "$response" | jq -e '.access_token' > /dev/null; then
+          # Check for the absence of "access_token" field in the response
+          if ! echo "$response" | jq -e ".access_token" > /dev/null; then
             echo "Error in API request. Response: $response"
             exit 1
           else
-            token=$(echo "$response" | jq -r '.access_token')
+            token=$(echo "$response" | jq -r ".access_token")
             echo "pyrus_token=$token" >> $GITHUB_ENV
             echo "Token received successfully."
           fi
@@ -69,9 +69,9 @@ jobs:
         run: |
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
-          -H 'Content-Type: application/json' \
+          -H "Content-Type: application/json" \
           -H "Authorization: Bearer $pyrus_token" \
-          -d '{
+          -d "{
             "form_id": "1376197",
             "fields": [
               {
@@ -84,25 +84,25 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "'"$title"'"
+                "value": "$(${{env.title }} | sed 's/"/\\"/g')"
               },
               {
                 "id": "7",
-                "value": "'"$body"'"
+                "value": "$(${{env.body }} | sed 's/"/\\"/g')"
               },
               {
                 "id": "5",
                 "value": "${{ inputs.LINK }}"
               }
             ]
-          }')
+          }")
 
-          # Check for the absence of 'task' field in the response
-          if ! echo "$response" | jq -e '.task' > /dev/null; then
+          # Check for the absence of "task" field in the response
+          if ! echo "$response" | jq -e ".task" > /dev/null; then
             echo "Error in API request. Response: $response"
             exit 1
           else
-            id=$(echo "$response" | jq -r '.task.id')
+            id=$(echo "$response" | jq -r ".task.id")
             echo "task_id=$id" >> $GITHUB_OUTPUT
             echo "Task created successfully."
           fi
