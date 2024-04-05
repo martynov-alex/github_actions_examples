@@ -67,8 +67,8 @@ jobs:
       - name: Creating a Pyrus task
         id: create_task
         run: |
-          escaped_title=$(echo $title | jq -Rsa .)
-          escaped_body=$(echo $body | jq -Rsa .)
+          escaped_title=$(echo $title | jq -Rs)
+          escaped_body=$(echo $body | jq -Rs)
 
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
