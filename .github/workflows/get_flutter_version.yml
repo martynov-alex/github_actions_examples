@@ -1,4 +1,4 @@
-name: Get Flutter version
+name: Get Flutter version from FVM settings
 
 on:
   workflow_call:

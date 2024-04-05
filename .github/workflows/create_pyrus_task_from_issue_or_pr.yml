@@ -2,34 +2,28 @@ name: Create Pyrus task from issue or PR
 
 on:
   workflow_call:
-    # Входные данные
     inputs:
-      # Тип: issue или PR
+      # Issue or PR
       TYPE:
         type: string
         required: true
-      # Название пакета
       PACKAGE_NAME:
         type: string
         required: true
-      # Заголовок issue или PR
       TITLE:
         type: string
         required: true
-      # Тело issue или PR
       BODY:
         type: string
         required: true
-      # Ссылка на issue или PR
       LINK:
         type: string
         required: true
-    # Выходные данные
     outputs:
-      # Номер созданной задачи
-      TASK_ID:
+      # Pyrus task ID which was created
+      PYRUS_TASK_ID:
         value: ${{ jobs.create_pyrus_task.outputs.task_id }}
-    # Данные для аутентификации Pyrus бота, который будет создавать задачи
+    # Authentication data for Pyrus bot which will create tasks
     secrets:
       LOGIN:
         required: true
@@ -43,6 +37,8 @@ jobs:
     outputs:
       task_id: ${{ steps.create_task.outputs.task_id }}
     env:
+      TITLE: ${{ github.event.inputs.TITLE }}
+      BODY: ${{ github.event.inputs.BODY }}
       LOGIN: ${{ secrets.LOGIN }}
       SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
     steps:
@@ -74,7 +70,7 @@ jobs:
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
           -H 'Content-Type: application/json' \
-          -H "Authorization: Bearer $TOKEN" \
+          -H 'Authorization: Bearer $TOKEN' \
           -d '{
             "form_id": "1376197",
             "fields": [
@@ -88,11 +84,11 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "${{ inputs.TITLE }}"
+                "value": "$TITLE"
               },
               {
                 "id": "7",
-                "value": "${{ inputs.BODY }}"
+                "value": "$BODY"
               },
               {
                 "id": "5",
