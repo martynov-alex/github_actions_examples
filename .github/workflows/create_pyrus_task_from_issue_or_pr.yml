@@ -67,7 +67,8 @@ jobs:
       - name: Creating a Pyrus task
         id: create_task
         run: |
-          escaped_quotes_title=$(echo "'"${{ env.title }}"'" | sed 's/"/\\"/g')
+          val=${{ env.title }}
+          escaped_quotes_title=$(echo $val | sed 's/"/\\"/g')
 
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
