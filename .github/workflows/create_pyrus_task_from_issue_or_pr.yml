@@ -37,10 +37,10 @@ jobs:
     outputs:
       task_id: ${{ steps.create_task.outputs.task_id }}
     env:
-      TITLE: ${{ github.event.inputs.TITLE }}
-      BODY: ${{ github.event.inputs.BODY }}
-      LOGIN: ${{ secrets.LOGIN }}
-      SECURITY_KEY: ${{ secrets.SECURITY_KEY }}
+      title: ${{ inputs.TITLE }}
+      body: ${{ inputs.BODY }}
+      login: ${{ secrets.LOGIN }}
+      security_key: ${{ secrets.SECURITY_KEY }}
     steps:
       - name: Authentication with receiving a token
         id: auth
@@ -49,8 +49,8 @@ jobs:
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
           -d '{
-            "login": "'"$LOGIN"'",
-            "security_key": "'"$SECURITY_KEY"'"
+            "login": "'"$login"'",
+            "security_key": "'"$security_key"'"
             }'
           )
 
@@ -60,7 +60,7 @@ jobs:
             exit 1
           else
             token=$(echo "$response" | jq -r '.access_token')
-            echo "TOKEN=$token" >> $GITHUB_ENV
+            echo "pyrus_token=$token" >> $GITHUB_ENV
             echo "Token received successfully."
           fi
 
@@ -70,7 +70,7 @@ jobs:
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
           -H 'Content-Type: application/json' \
-          -H "Authorization: Bearer $TOKEN" \
+          -H "Authorization: Bearer $pyrus_token" \
           -d '{
             "form_id": "1376197",
             "fields": [
@@ -84,11 +84,11 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "'"$TITLE"'"
+                "value": "'"$title"'"
               },
               {
                 "id": "7",
-                "value": "'"$BODY"'"
+                "value": "'"$body"'"
               },
               {
                 "id": "5",
