@@ -39,8 +39,8 @@ jobs:
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
           -d '{
-              "login": "'"$login"'",
-              "security_key": "'"$security_key"'"
+              "login": "${{ env.login }}",
+              "security_key": "${{ env.security_key }}"
               }'
            )
 
@@ -60,7 +60,7 @@ jobs:
           https://api.pyrus.com/v4/tasks/${{ inputs.PYRUS_TASK_ID }}/comments \
           -H 'Content-Type: application/json' \
           -H "Authorization: Bearer $pyrus_token" \
-          -d '{ "text": "'"$comment_text"'" }')
+          -d '{ "text": "${{ env.comment_text }}" }')
 
           # Check for the absence of 'task' field in the response
           if ! echo "$response" | jq -e '.task' > /dev/null; then
