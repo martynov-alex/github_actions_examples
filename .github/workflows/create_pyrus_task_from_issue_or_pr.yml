@@ -48,10 +48,10 @@ jobs:
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
           -H "Content-Type: application/json" \
-          -d "{
+          -d '{
               "login": "${{ env.login }}",
               "security_key": "${{ env.security_key }}"
-            }"
+            }'
           )
 
           # Check for the absence of "access_token" field in the response
@@ -71,7 +71,7 @@ jobs:
           https://api.pyrus.com/v4/tasks \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer $pyrus_token" \
-          -d "{
+          -d '{
             "form_id": "1376197",
             "fields": [
               {
@@ -95,7 +95,7 @@ jobs:
                 "value": "${{ inputs.LINK }}"
               }
             ]
-          }")
+          }')
 
           # Check for the absence of "task" field in the response
           if ! echo "$response" | jq -e ".task" > /dev/null; then
