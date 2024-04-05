@@ -84,11 +84,11 @@ jobs:
               },
               {
                 "id": "1",
-                "value": $TITLE
+                "value": "'"$TITLE"'"
               },
               {
                 "id": "7",
-                "value": $BODY
+                "value": "'"$BODY"'"
               },
               {
                 "id": "5",
