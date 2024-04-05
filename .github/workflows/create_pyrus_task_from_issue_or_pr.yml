@@ -47,11 +47,11 @@ jobs:
         run: |
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
-          -H "Content-Type: application/json" \
-          -d "{
-              login: ${{ env.login }},
-              security_key: ${{ env.security_key }}
-            }"
+          -H 'Content-Type: application/json' \
+          -d '{
+              "login": "${{ env.login }}",
+              "security_key": "${{ env.security_key }}"
+            }'
           )
 
           # Check for the absence of "access_token" field in the response
@@ -67,11 +67,14 @@ jobs:
       - name: Creating a Pyrus task
         id: create_task
         run: |
+          single_quotes_escaped_title=$(echo "${{ env.title }}" | sed "s/'/\\'/g")
+          single_quotes_escaped_body=$(echo "${{ env.body }}" | sed "s/'/\\'/g")
+
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \
-          -H "Content-Type: application/json" \
-          -H "Authorization: Bearer $pyrus_token" \
-          -d "{
+          -H 'Content-Type: application/json' \
+          -H 'Authorization: Bearer $pyrus_token' \
+          -d '{
             "form_id": "1376197",
             "fields": [
               {
@@ -84,18 +87,18 @@ jobs:
               },
               {
                 "id": "1",
-                "value": "$(echo '${{ env.title }}' | sed 's/"/\\"/g')"
+                "value": "$(echo '$single_quotes_escaped_title' | sed 's/"/\\"/g')"
               },
               {
                 "id": "7",
-                "value": "$(echo '${{ env.body }}' | sed 's/"/\\"/g')"
+                "value": "$(echo '$single_quotes_escaped_body' | sed 's/"/\\"/g')"
               },
               {
                 "id": "5",
                 "value": "${{ inputs.LINK }}"
               }
             ]
-          }")
+          }')
 
           # Check for the absence of "task" field in the response
           if ! echo "$response" | jq -e ".task" > /dev/null; then
