@@ -90,11 +90,11 @@ jobs:
               },
               {
                 "id": "1",
-                "value": $escaped_title
+                "value": '"$escaped_title"'
               },
               {
                 "id": "7",
-                "value": $escaped_body
+                "value": '"$escaped_body"'
               },
               {
                 "id": "5",
