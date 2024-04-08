@@ -45,6 +45,7 @@ jobs:
       - name: Authentication with receiving a token
         id: auth
         run: |
+          # Authentication with receiving a token
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
@@ -67,6 +68,7 @@ jobs:
       - name: Creating a Pyrus task
         id: create_task
         run: |
+          # Creating a Pyrus task
           escaped_title=$(echo -n $title | jq -Rs)
           escaped_body=$(echo -n $body | jq -Rs)
 

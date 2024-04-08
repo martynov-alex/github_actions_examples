@@ -28,6 +28,7 @@ jobs:
     steps:
       - name: Check if comment_text is not empty
         run: |
+          # Check if comment_text is not empty
           if [[ -z "$comment_text" ]]; then
             echo "Comment with Pyrus task link does not exist or empty."
             exit 1
@@ -35,6 +36,7 @@ jobs:
       - name: Authentication with receiving a token
         id: auth
         run: |
+          # Authentication with receiving a token
           response=$(curl -X POST \
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
@@ -56,6 +58,7 @@ jobs:
       - name: Add comment to Pyrus task
         id: add_comment
         run: |
+          # Add comment to Pyrus task
           escaped_comment_text=$(echo -n $comment_text | jq -Rs)
 
           response=$(curl -X POST \
