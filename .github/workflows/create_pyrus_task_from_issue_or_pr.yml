@@ -22,7 +22,7 @@ on:
     outputs:
       # Pyrus task ID which was created
       PYRUS_TASK_ID:
-        value: ${{ jobs.create_pyrus_task.outputs.task_id }}
+        value: ${{ jobs.create_pyrus_task.outputs.pyrus_task_id }}
     # Authentication data for Pyrus bot which will create tasks
     secrets:
       LOGIN:
@@ -35,7 +35,7 @@ jobs:
     name: Create Pyrus task from issue or PR
     runs-on: ubuntu-latest
     outputs:
-      task_id: ${{ steps.create_task.outputs.task_id }}
+      pyrus_task_id: ${{ steps.create_task.outputs.task_id }}
     env:
       title: ${{ inputs.TITLE }}
       body: ${{ inputs.BODY }}
@@ -69,9 +69,6 @@ jobs:
         run: |
           escaped_title=$(echo -n $title | jq -Rs)
           escaped_body=$(echo -n $body | jq -Rs)
-
-          echo $escaped_title
-          echo $escaped_body
 
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks \

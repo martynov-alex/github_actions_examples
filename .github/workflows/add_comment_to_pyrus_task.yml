@@ -39,8 +39,8 @@ jobs:
           https://api.pyrus.com/v4/auth \
           -H 'Content-Type: application/json' \
           -d '{
-              "login": "${{ env.login }}",
-              "security_key": "${{ env.security_key }}"
+                "login": "${{ env.login }}",
+                "security_key": "${{ env.security_key }}"
               }'
            )
 
@@ -56,11 +56,13 @@ jobs:
       - name: Add comment to Pyrus task
         id: add_comment
         run: |
+          escaped_comment_text=$(echo -n $comment_text | jq -Rs)
+
           response=$(curl -X POST \
           https://api.pyrus.com/v4/tasks/${{ inputs.PYRUS_TASK_ID }}/comments \
           -H 'Content-Type: application/json' \
           -H "Authorization: Bearer $pyrus_token" \
-          -d '{ "text": "${{ env.comment_text }}" }')
+          -d '{ "text": '"$escaped_comment_text"' }')
 
           # Check for the absence of 'task' field in the response
           if ! echo "$response" | jq -e '.task' > /dev/null; then
